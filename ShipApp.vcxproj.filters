@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>qml;cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+    </Filter>
+    <Filter Include="Header Files\detection">
+      <UniqueIdentifier>{c35e1006-cdee-435c-a84a-36badd6d3c73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\detection">
+      <UniqueIdentifier>{42135dee-833c-4786-aa7f-c62067829458}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model">
+      <UniqueIdentifier>{3dccaece-1c73-4b2e-a45d-f3ce8d783911}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\tracker">
+      <UniqueIdentifier>{cc819131-3858-4348-b716-6120e0f3c41b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tracker">
+      <UniqueIdentifier>{df62ec2a-6b95-4dc0-9478-fa2386146d7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\tracksUtils">
+      <UniqueIdentifier>{a9cf14dd-cbdd-41d2-b3b7-d8332a0dbfba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tracksUtils">
+      <UniqueIdentifier>{0544b197-3291-443c-8d46-f0dcbb467570}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\customTracker">
+      <UniqueIdentifier>{fa542a79-0faa-4d55-84bf-22b40fbe863a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\customTracker">
+      <UniqueIdentifier>{7942f699-920c-4172-a754-9beb9d942210}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utils">
+      <UniqueIdentifier>{27dea927-7a0e-4f75-b706-512b124229a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\utils">
+      <UniqueIdentifier>{1f06cf1f-f1a0-433e-abb1-1d9ef6aa84e1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="ShipApp.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+    <QtUic Include="ShipApp.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShipApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Yolov8Detection.cpp">
+      <Filter>Source Files\detection</Filter>
+    </ClCompile>
+    <ClCompile Include="tracker\BYTETracker.cpp">
+      <Filter>Source Files\tracker</Filter>
+    </ClCompile>
+    <ClCompile Include="tracker\kalmanFilter.cpp">
+      <Filter>Source Files\tracker</Filter>
+    </ClCompile>
+    <ClCompile Include="tracker\lapjv.cpp">
+      <Filter>Source Files\tracker</Filter>
+    </ClCompile>
+    <ClCompile Include="tracker\STrack.cpp">
+      <Filter>Source Files\tracker</Filter>
+    </ClCompile>
+    <ClCompile Include="tracker\utils.cpp">
+      <Filter>Source Files\tracker</Filter>
+    </ClCompile>
+    <ClCompile Include="tracksUtils\TrackUtils.cpp">
+      <Filter>Source Files\tracksUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="Tracker.cpp">
+      <Filter>Source Files\customTracker</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\trackerHelper.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Yolov8Detection.h">
+      <Filter>Header Files\detection</Filter>
+    </ClInclude>
+    <ClInclude Include="tracker\BYTETracker.h">
+      <Filter>Header Files\tracker</Filter>
+    </ClInclude>
+    <ClInclude Include="tracker\dataType.h">
+      <Filter>Header Files\tracker</Filter>
+    </ClInclude>
+    <ClInclude Include="tracker\kalmanFilter.h">
+      <Filter>Header Files\tracker</Filter>
+    </ClInclude>
+    <ClInclude Include="tracker\lapjv.h">
+      <Filter>Header Files\tracker</Filter>
+    </ClInclude>
+    <ClInclude Include="tracker\STrack.h">
+      <Filter>Header Files\tracker</Filter>
+    </ClInclude>
+    <ClInclude Include="tracksUtils\TrackUtils.h">
+      <Filter>Header Files\tracksUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="Tracker.h">
+      <Filter>Header Files\customTracker</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\trackerHelper.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="ShipApp.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Model\ShipModel.onnx">
+      <Filter>Model</Filter>
+    </None>
+    <None Include="packages.config" />
+    <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime.dll" />
+    <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime_providers_shared.dll" />
+    <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime_providers_cuda.dll" />
+    <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime_providers_tensorrt.dll" />
+    <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime.dll" />
+    <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime_providers_shared.dll" />
+    <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime.dll" />
+    <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime_providers_shared.dll" />
+    <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime.dll" />
+    <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime_providers_shared.dll" />
+    <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime.dll" />
+    <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime_providers_shared.dll" />
+    <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime.dll" />
+    <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime_providers_shared.dll" />
+  </ItemGroup>
+</Project>
