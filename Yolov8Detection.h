@@ -18,7 +18,7 @@ class Yolov8Detection
 		int _netHeight{ 0 };
 		int _netChannels{ 0 };
 		int numOfClasses;
-		std::vector<std::string> labels = {"Ferry","SmallBoat","Boat"};
+		std::vector<std::string> labels = {"Ferry","Boat"};
 	}modelInfo;
 
 public:

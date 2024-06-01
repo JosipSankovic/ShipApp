@@ -42,18 +42,6 @@
     <Filter Include="Source Files\tracksUtils">
       <UniqueIdentifier>{0544b197-3291-443c-8d46-f0dcbb467570}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\customTracker">
-      <UniqueIdentifier>{fa542a79-0faa-4d55-84bf-22b40fbe863a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\customTracker">
-      <UniqueIdentifier>{7942f699-920c-4172-a754-9beb9d942210}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\utils">
-      <UniqueIdentifier>{27dea927-7a0e-4f75-b706-512b124229a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\utils">
-      <UniqueIdentifier>{1f06cf1f-f1a0-433e-abb1-1d9ef6aa84e1}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="ShipApp.qrc">
@@ -91,12 +79,6 @@
     <ClCompile Include="tracksUtils\TrackUtils.cpp">
       <Filter>Source Files\tracksUtils</Filter>
     </ClCompile>
-    <ClCompile Include="Tracker.cpp">
-      <Filter>Source Files\customTracker</Filter>
-    </ClCompile>
-    <ClCompile Include="utils\trackerHelper.cpp">
-      <Filter>Source Files\utils</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Yolov8Detection.h">
@@ -120,12 +102,6 @@
     <ClInclude Include="tracksUtils\TrackUtils.h">
       <Filter>Header Files\tracksUtils</Filter>
     </ClInclude>
-    <ClInclude Include="Tracker.h">
-      <Filter>Header Files\customTracker</Filter>
-    </ClInclude>
-    <ClInclude Include="utils\trackerHelper.h">
-      <Filter>Header Files\utils</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="ShipApp.h">
@@ -141,6 +117,8 @@
     <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime_providers_shared.dll" />
     <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime_providers_cuda.dll" />
     <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime_providers_tensorrt.dll" />
+    <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime.dll" />
+    <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime_providers_shared.dll" />
     <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime.dll" />
     <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime_providers_shared.dll" />
     <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime.dll" />

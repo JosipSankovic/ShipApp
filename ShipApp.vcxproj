@@ -107,14 +107,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Tracker.cpp" />
     <ClCompile Include="tracker\BYTETracker.cpp" />
     <ClCompile Include="tracker\kalmanFilter.cpp" />
     <ClCompile Include="tracker\lapjv.cpp" />
     <ClCompile Include="tracker\STrack.cpp" />
     <ClCompile Include="tracker\utils.cpp" />
     <ClCompile Include="tracksUtils\TrackUtils.cpp" />
-    <ClCompile Include="utils\trackerHelper.cpp" />
     <ClCompile Include="Yolov8Detection.cpp" />
     <QtRcc Include="ShipApp.qrc" />
     <QtUic Include="ShipApp.ui" />
@@ -123,14 +121,12 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Tracker.h" />
     <ClInclude Include="tracker\BYTETracker.h" />
     <ClInclude Include="tracker\dataType.h" />
     <ClInclude Include="tracker\kalmanFilter.h" />
     <ClInclude Include="tracker\lapjv.h" />
     <ClInclude Include="tracker\STrack.h" />
     <ClInclude Include="tracksUtils\TrackUtils.h" />
-    <ClInclude Include="utils\trackerHelper.h" />
     <ClInclude Include="Yolov8Detection.h" />
   </ItemGroup>
   <ItemGroup>
