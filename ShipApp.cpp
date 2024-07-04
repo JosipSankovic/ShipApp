@@ -7,7 +7,9 @@ ShipApp::ShipApp(QWidget* parent)
 }
 
 ShipApp::~ShipApp()
-{}
+{
+
+}
 
 QPixmap ShipApp::getPixmap(cv::Mat& Img)
 {
@@ -37,15 +39,14 @@ void ShipApp::loadVideo()
 
 void ShipApp::playVideo()
 {
-	//writer.open("output.mp4", cv::VideoWriter::fourcc('M', 'P', '4', 'V'), _VideoInfo.fps/2, cv::Size(frame.cols, frame.rows));
+//	writer.open("output.mp4", cv::VideoWriter::fourcc('M', 'P', '4', 'V'), _VideoInfo.fps/2, cv::Size(frame.cols, frame.rows));
 	if (!_ShipAppState.modelLoaded)
 		_ShipAppState.modelLoaded = detection.ReadModel("Model/best (3).onnx", ui.check_CUDA->isChecked());
 	std::thread([&] {
 		while (_ShipAppState.videoPlaying &&
 			_VideoInfo.frameNumber < _VideoInfo.totalFrames)
 		{
-			//u slucaju nevaljanog frame-a
-			for (int i = 0; i < 5; i++)
+			for (int i = 0; i < 8; i++)
 				cap.grab();
 			_VideoInfo.frameNumber++;
 
@@ -53,33 +54,33 @@ void ShipApp::playVideo()
 				_ShipAppState.detectionRunning = true;
 				cap.retrieve(frame);
 
-
 				detectAndTrack();
 				showImage(frame);
-
+			//	writer.write(frame);
 				_ShipAppState.detectionRunning = false;
 
 			}
 
 
 		}
+		//writer.release();
 	}).detach();
 }
 
 void ShipApp::detectAndTrack()
 {
-
 	auto start = std::chrono::high_resolution_clock::now();
-	tracker.createDistanceMap(640,640);
+	// detektiraj objekte
 	results = detection.Detect(frame);
+	// dodjeli svakom objektu Id
 	tracker.track(results, _CONFIDENCE_THRESHOLD, _VideoInfo.frameNumber);
-	tracker.drawPastPoints(frame, _VideoInfo.frameNumber);
-	tracker.drawSpeedVector(frame,12);
+	//nacrtaj trace od svakog detektiranog id-a
+	tracker.drawPastPoints(frame, _VideoInfo.frameNumber,80);
 	auto end = std::chrono::high_resolution_clock::now();
 	auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-	cv::putText(frame, to_string(dur.count()), { 20,100 }, 1, 5, { 100,255,0 });
+	cv::putText(frame, to_string(dur.count())+"fr:"+to_string(_VideoInfo.frameNumber), {20,100},1, 5, {0,5,0},3);
 	results.clear();
-}
+}  
 
 void ShipApp::showImage(cv::Mat& img)
 {
