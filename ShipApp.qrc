@@ -1,4 +1,5 @@
 <RCC>
-    <qresource prefix="ShipApp">
+    <qresource prefix="/ShipApp">
+        <file>style.qss</file>
     </qresource>
 </RCC>

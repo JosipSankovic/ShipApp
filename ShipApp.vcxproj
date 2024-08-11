@@ -6,8 +6,7 @@
 ***************************************************************************************************
 -->
 <Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="packages\Microsoft.ML.OnnxRuntime.1.16.3\build\native\Microsoft.ML.OnnxRuntime.props" Condition="Exists('packages\Microsoft.ML.OnnxRuntime.1.16.3\build\native\Microsoft.ML.OnnxRuntime.props')" />
-  <Import Project="packages\Microsoft.ML.OnnxRuntime.Gpu.1.16.3\build\native\Microsoft.ML.OnnxRuntime.Gpu.props" Condition="Exists('packages\Microsoft.ML.OnnxRuntime.Gpu.1.16.3\build\native\Microsoft.ML.OnnxRuntime.Gpu.props')" />
+  <Import Project="packages\Microsoft.ML.OnnxRuntime.1.18.1\build\native\Microsoft.ML.OnnxRuntime.props" Condition="Exists('packages\Microsoft.ML.OnnxRuntime.1.18.1\build\native\Microsoft.ML.OnnxRuntime.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
@@ -107,12 +106,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CollisionTracker.cpp" />
     <ClCompile Include="tracker\BYTETracker.cpp" />
     <ClCompile Include="tracker\kalmanFilter.cpp" />
     <ClCompile Include="tracker\lapjv.cpp" />
     <ClCompile Include="tracker\STrack.cpp" />
     <ClCompile Include="tracker\utils.cpp" />
-    <ClCompile Include="tracksUtils\TrackUtils.cpp" />
     <ClCompile Include="Yolov8Detection.cpp" />
     <QtRcc Include="ShipApp.qrc" />
     <QtUic Include="ShipApp.ui" />
@@ -121,33 +120,31 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CollisionTracker.h" />
     <ClInclude Include="tracker\BYTETracker.h" />
     <ClInclude Include="tracker\dataType.h" />
     <ClInclude Include="tracker\kalmanFilter.h" />
     <ClInclude Include="tracker\lapjv.h" />
     <ClInclude Include="tracker\STrack.h" />
-    <ClInclude Include="tracksUtils\TrackUtils.h" />
     <ClInclude Include="Yolov8Detection.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Model\ShipModel.onnx" />
     <None Include="packages.config" />
+    <None Include="style.qss" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />
   </ImportGroup>
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="packages\Microsoft.ML.OnnxRuntime.Gpu.1.16.3\build\native\Microsoft.ML.OnnxRuntime.Gpu.targets" Condition="Exists('packages\Microsoft.ML.OnnxRuntime.Gpu.1.16.3\build\native\Microsoft.ML.OnnxRuntime.Gpu.targets')" />
-    <Import Project="packages\Microsoft.ML.OnnxRuntime.1.16.3\build\native\Microsoft.ML.OnnxRuntime.targets" Condition="Exists('packages\Microsoft.ML.OnnxRuntime.1.16.3\build\native\Microsoft.ML.OnnxRuntime.targets')" />
+    <Import Project="packages\Microsoft.ML.OnnxRuntime.1.18.1\build\native\Microsoft.ML.OnnxRuntime.targets" Condition="Exists('packages\Microsoft.ML.OnnxRuntime.1.18.1\build\native\Microsoft.ML.OnnxRuntime.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\Microsoft.ML.OnnxRuntime.Gpu.1.16.3\build\native\Microsoft.ML.OnnxRuntime.Gpu.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.ML.OnnxRuntime.Gpu.1.16.3\build\native\Microsoft.ML.OnnxRuntime.Gpu.props'))" />
-    <Error Condition="!Exists('packages\Microsoft.ML.OnnxRuntime.Gpu.1.16.3\build\native\Microsoft.ML.OnnxRuntime.Gpu.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.ML.OnnxRuntime.Gpu.1.16.3\build\native\Microsoft.ML.OnnxRuntime.Gpu.targets'))" />
-    <Error Condition="!Exists('packages\Microsoft.ML.OnnxRuntime.1.16.3\build\native\Microsoft.ML.OnnxRuntime.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.ML.OnnxRuntime.1.16.3\build\native\Microsoft.ML.OnnxRuntime.props'))" />
-    <Error Condition="!Exists('packages\Microsoft.ML.OnnxRuntime.1.16.3\build\native\Microsoft.ML.OnnxRuntime.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.ML.OnnxRuntime.1.16.3\build\native\Microsoft.ML.OnnxRuntime.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.ML.OnnxRuntime.1.18.1\build\native\Microsoft.ML.OnnxRuntime.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.ML.OnnxRuntime.1.18.1\build\native\Microsoft.ML.OnnxRuntime.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.ML.OnnxRuntime.1.18.1\build\native\Microsoft.ML.OnnxRuntime.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.ML.OnnxRuntime.1.18.1\build\native\Microsoft.ML.OnnxRuntime.targets'))" />
   </Target>
 </Project>

@@ -7,8 +7,7 @@
 #include<QFileDialog>
 #include<opencv2/opencv.hpp>
 #include<opencv2/videoio.hpp>
-#include"tracksUtils/TrackUtils.h"
-#include "utils/trackerHelper.h"
+#include "CollisionTracker.h"
 #include <vector>
 #include <map>
 
@@ -36,7 +35,7 @@ private:
 	Ui::ShipAppClass ui;
 	QSettings _registry;
 	QString _path{ "" };
-	int _CONFIDENCE_THRESHOLD = 0.2;
+	int _CONFIDENCE_THRESHOLD = 0.5;
 	//opencv
 private:
 	cv::VideoCapture cap;
@@ -48,8 +47,7 @@ private:
 	std::vector<Result> results;
 	//tracker
 private:
-	TrackUtils tracker;
-
+	CollisionTracker tracker;
 	//functions
 private:
 	QPixmap getPixmap(cv::Mat& Img);

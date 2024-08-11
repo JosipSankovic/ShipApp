@@ -36,12 +36,6 @@
     <Filter Include="Source Files\tracker">
       <UniqueIdentifier>{df62ec2a-6b95-4dc0-9478-fa2386146d7b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\tracksUtils">
-      <UniqueIdentifier>{a9cf14dd-cbdd-41d2-b3b7-d8332a0dbfba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\tracksUtils">
-      <UniqueIdentifier>{0544b197-3291-443c-8d46-f0dcbb467570}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="ShipApp.qrc">
@@ -76,8 +70,8 @@
     <ClCompile Include="tracker\utils.cpp">
       <Filter>Source Files\tracker</Filter>
     </ClCompile>
-    <ClCompile Include="tracksUtils\TrackUtils.cpp">
-      <Filter>Source Files\tracksUtils</Filter>
+    <ClCompile Include="CollisionTracker.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -99,8 +93,8 @@
     <ClInclude Include="tracker\STrack.h">
       <Filter>Header Files\tracker</Filter>
     </ClInclude>
-    <ClInclude Include="tracksUtils\TrackUtils.h">
-      <Filter>Header Files\tracksUtils</Filter>
+    <ClInclude Include="CollisionTracker.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -112,7 +106,6 @@
     <None Include="Model\ShipModel.onnx">
       <Filter>Model</Filter>
     </None>
-    <None Include="packages.config" />
     <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime.dll" />
     <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime_providers_shared.dll" />
     <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime_providers_cuda.dll" />
@@ -129,5 +122,11 @@
     <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime_providers_shared.dll" />
     <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime.dll" />
     <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime_providers_shared.dll" />
+    <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime.dll" />
+    <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\onnxruntime_providers_shared.dll" />
+    <None Include="packages.config" />
+    <None Include="style.qss">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

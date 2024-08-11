@@ -1,0 +1,107 @@
+﻿/* Style for the main window */
+QMainWindow {
+background-color: #f5f5f5; /* Light grey background */
+color: #333333; /* Dark grey text color */
+}
+
+/* Style for the video frame */
+#videoFrame {
+background-color: #ffffff; /* White background for the video frame */
+border: 2px solid #cccccc; /* Light grey border around the video frame */
+}
+
+/* Style for the control bar */
+#controlBar {
+background-color: #e0e0e0; /* Light grey for the control bar */
+border-left: 2px solid #cccccc; /* Light grey border on the left side of the control bar */
+padding: 10px; /* Padding inside the control bar */
+}
+
+/* Base style for the buttons in the control bar */
+QPushButton {
+color: #ffffff; /* White text color */
+border: 1px solid #cccccc; /* Light grey border */
+padding: 8px 15px; /* Padding inside the buttons */
+margin-bottom: 10px; /* Space between buttons */
+border-radius: 8px; /* Rounded corners for buttons */
+font-size: 14px; /* Font size */
+font-family: 'Roboto', sans-serif; /* Roboto font */
+font-weight: bold; /* Bold font */
+transition: background-color 0.3s ease, border 0.3s ease; /* Smooth transition for background and border */
+box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for buttons */
+}
+
+/* Specific styles for btn_Start */
+#btn_Start {
+background-color: #4CAF50; /* Green background */
+border: 1px solid #45A049; /* Slightly darker green border */
+}
+
+#btn_Start:hover {
+background-color: #45A049; /* Darker green on hover */
+border: 1px solid #3E8E41; /* Darker green border on hover */
+}
+
+#btn_Start:pressed {
+background-color: #388E3C; /* Even darker green when pressed */
+border: 1px solid #2E7D32; /* Darkest green border when pressed */
+box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2); /* Inset shadow when pressed */
+}
+
+/* Specific styles for btn_Stop */
+#btn_Stop {
+background-color: #F44336; /* Red background */
+border: 1px solid #E53935; /* Slightly darker red border */
+}
+
+#btn_Stop:hover {
+background-color: #E53935; /* Darker red on hover */
+border: 1px solid #D32F2F; /* Darker red border on hover */
+}
+
+#btn_Stop:pressed {
+background-color: #D32F2F; /* Even darker red when pressed */
+border: 1px solid #C62828; /* Darkest red border when pressed */
+box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2); /* Inset shadow when pressed */
+}
+
+/* Specific styles for btn_LoadVideo */
+#btn_LoadVideo {
+background-color: #2196F3; /* Blue background */
+border: 1px solid #1E88E5; /* Slightly darker blue border */
+}
+
+#btn_LoadVideo:hover {
+background-color: #1E88E5; /* Darker blue on hover */
+border: 1px solid #1976D2; /* Darker blue border on hover */
+}
+
+#btn_LoadVideo:pressed {
+background-color: #1976D2; /* Even darker blue when pressed */
+border: 1px solid #1565C0; /* Darkest blue border when pressed */
+box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2); /* Inset shadow when pressed */
+}
+
+/* Base style for QCheckBox */
+QCheckBox {
+spacing: 5px; /* Space between checkbox indicator and text */
+color: #333333; /* Dark grey text color */
+font-size: 14px; /* Font size */
+font-family: 'Roboto', sans-serif; /* Roboto font */
+}
+
+/* Checkbox indicator (unchecked) */
+QCheckBox::indicator {
+width: 18px;
+height: 18px;
+border: 1px solid #cccccc; /* Light grey border */
+background-color: #ffffff; /* White background */
+border-radius: 3px; /* Rounded corners */
+}
+
+/* Checkbox indicator (checked) */
+QCheckBox::indicator:checked {
+background-color: #4CAF50; /* Green background for checked state */
+border: 1px solid #cccccc; /* Light grey border */
+border-radius: 3px; /* Rounded corners */
+}
