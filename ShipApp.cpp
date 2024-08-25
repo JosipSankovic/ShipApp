@@ -20,67 +20,59 @@ QPixmap ShipApp::getPixmap(cv::Mat& Img)
 
 void ShipApp::loadVideo()
 {
-	cap.open(_path.toStdString());
-	if (!cap.isOpened())
+	_ShipAppState.videoLoaded = false;
+	video.open(_path.toStdString());
+	if (!video.isOpened())
 		return;
 	_ShipAppState.videoLoaded = true;
 	//uzimanje info u vezi videa
-	_VideoInfo.totalFrames = cap.get(cv::CAP_PROP_FRAME_COUNT);
-	_VideoInfo.fps = cap.get(cv::CAP_PROP_FPS);
+	_VideoInfo.totalFrames = video.get(cv::CAP_PROP_FRAME_COUNT);
+	_VideoInfo.fps = video.get(cv::CAP_PROP_FPS);
 	//postavljanje na prvi frame
 	_VideoInfo.frameNumber = 0;
-	cap.set(cv::CAP_PROP_POS_FRAMES, _VideoInfo.frameNumber);
+	video.set(cv::CAP_PROP_POS_FRAMES, _VideoInfo.frameNumber);
+	tracker.resetTracker();
 	//dohvacanje prvog frame-a i prikazivanje
-	cap >> frame;
+	video >> frame;
 	_VideoInfo.frameNumber++;
+	if (!_ShipAppState.modelLoaded)
+		_ShipAppState.modelLoaded = detection_model.ReadModel("Model/best (8).onnx", ui.check_CUDA->isChecked());
 	showImage(frame);
 }
 
 void ShipApp::playVideo()
 {
-	if (!_ShipAppState.modelLoaded)
-		_ShipAppState.modelLoaded = detection.ReadModel("Model/best (3).onnx", ui.check_CUDA->isChecked());
 	std::thread([&] {
-		//auto writer = cv::VideoWriter("video.mp4", cv::VideoWriter::fourcc('M', 'P', '4', 'V'), 10,
-		//cv::Size(cap.get(cv::CAP_PROP_FRAME_WIDTH), cap.get(cv::CAP_PROP_FRAME_HEIGHT)));
 		while (_ShipAppState.videoPlaying &&
 			_VideoInfo.frameNumber < _VideoInfo.totalFrames)
 		{
 			for (int i = 0; i < 10; i++) {
-				cap.grab();
+				video.grab();
 				_VideoInfo.frameNumber++;
 			}
-
 			if (!_ShipAppState.detectionRunning) {
 				_ShipAppState.detectionRunning = true;
-				cap.retrieve(frame);
+				video.retrieve(frame);
 				detectAndTrack();
 				showImage(frame);
-				//writer.write(frame);
 				_ShipAppState.detectionRunning = false;
-
 			}
-
-
 		}
-		//writer.release();
 	}).detach();
 }
 
 void ShipApp::detectAndTrack()
 {
-	auto start = std::chrono::high_resolution_clock::now();
-	// detektiraj objekte
-	results = detection.Detect(frame);
-	// dodjeli svakom objektu Id
+	auto start = std::chrono::system_clock::now();
+	results = detection_model.Detect(frame);
 	tracker.update_track(results, _CONFIDENCE_THRESHOLD);
-	tracker.show_speed_vector(frame);
-	tracker.find_colision(frame,30);
-	//nacrtaj trace od svakog detektiranog id-a
-	auto end = std::chrono::high_resolution_clock::now();
-	auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-	cv::putText(frame, to_string(dur.count())+"fr:"+to_string(_VideoInfo.frameNumber), {20,100},1, 5, {0,5,0},3);
+	tracker.find_collision(80);
+	tracker.draw_collision_points(frame);
+	tracker.show_track(frame, 10000);
 	results.clear();
+	auto end = std::chrono::system_clock::now();
+	auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+	cv::putText(frame, "MS:" + std::to_string(elapsed.count()), { 20,80 }, 0, 2, { 255,255,10 });
 }  
 
 void ShipApp::showImage(cv::Mat& img)

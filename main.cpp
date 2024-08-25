@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
         QTextStream ts(&f);
         a.setStyleSheet(ts.readAll());
     }
-    ShipApp w;
-    w.show();
+    ShipApp main_GUI;
+    main_GUI.show();
     return a.exec();
 }

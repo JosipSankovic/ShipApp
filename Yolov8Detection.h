@@ -20,15 +20,12 @@ class Yolov8Detection
 		int numOfClasses;
 		std::vector<std::string> labels = {"Ferry","Ship","Boat"};
 	}modelInfo;
-
 public:
 	Yolov8Detection() :_OrtMemoryInfo(Ort::MemoryInfo::CreateCpu(OrtAllocatorType::OrtDeviceAllocator, OrtMemType::OrtMemTypeCPUOutput)) {};
 	~Yolov8Detection();
-
 public:
-	float CONFIDENCE{ 0.05 };
+	float CONFIDENCE_THRESHOLD{ 0.05 };
 	float NMS_THRESHOLD{ 0.3 };
-
 public:
 	bool ReadModel(std::string modelPath);
 	bool ReadModel(std::string modelPath,bool useCUDA);
@@ -36,16 +33,14 @@ public:
 private:
 	float* Preprocess(cv::Mat& img);
 	std::vector<Result> Postprocess(std::vector<Ort::Value>& output);
-	void getBestClassInfo(const cv::Mat& p_Mat, const int& numClasses,
+	void getBestClassInfo(const float* values, const int& numClasses,
 		float& bestConf, int& bestClassId);
-
 private:
 	Env _OrtEnv;
 	RunOptions runOtions;
 	SessionOptions _sessionOptions;
 	Session* _OrtSession=nullptr;
 	MemoryInfo _OrtMemoryInfo;
-
 private:
 	std::shared_ptr<char> _inputName, _outputNames;
 	ONNXTensorElementDataType _inputNodeTensorType;
