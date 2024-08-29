@@ -1,9 +1,9 @@
 #include "CollisionTracker.h"
 
 
-void CollisionTracker::update_track(std::vector<Result> objects,cv::Mat& frame, float conf_thresh)
+void CollisionTracker::update_track(std::vector<Result> objects,cv::Mat& frame, float conf_thresh,float low_conf)
 {
-	std::vector<Track> detectedTracks = tracker.update(objects,frame,conf_thresh);
+	std::vector<Track> detectedTracks = tracker.update(objects,frame,conf_thresh,low_conf);
 	frameNumber++;
 	add_tracks(detectedTracks);
 }

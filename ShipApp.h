@@ -31,7 +31,7 @@ private:
 	Ui::ShipAppClass ui;
 	QSettings _registry;
 	QString _path{ "" };
-	float _CONFIDENCE_THRESHOLD = 0.5;
+	float _CONFIDENCE_THRESHOLD = 0.7;
 private:
 	//opencv
 	cv::VideoCapture video;

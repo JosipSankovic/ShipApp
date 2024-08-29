@@ -2,8 +2,10 @@
 
 CustomTracker::CustomTracker()
 {
-    low_score = 0.05;
+    low_score = 0.1;
     high_score = 0.5;
+    track_lost_tresh = 20;
+    DISTANCE_THRESH = 20;
 }
 
 std::vector<Track> CustomTracker::update(std::vector<Result> detected_objects, cv::Mat& frame, float conf_thresh,float low_conf_thresh)
@@ -18,9 +20,11 @@ std::vector<Track> CustomTracker::update(std::vector<Result> detected_objects, c
     for (const auto& object : detected_objects) {
         if (object.confidence > conf_thresh) {
             high_score_boxs.push_back({ object.boundingBox,{0,0},object.confidence,-1,fr_num,object.classId });
+            cv::rectangle(frame, object.boundingBox, { 0,255,0 }, 1);
         }
         else if(object.confidence>=low_conf_thresh){
             low_score_boxs.push_back({ object.boundingBox,{0,0},object.confidence,-1,fr_num,object.classId });
+            cv::rectangle(frame, object.boundingBox, { 0,0,255 }, 1);
         }
     }
     //trackId,nextPoint
@@ -40,8 +44,9 @@ std::vector<Track> CustomTracker::update(std::vector<Result> detected_objects, c
         next_points[track_pair.first] = (cv::Point2f)rect_center(track.box);
         cv::circle(frame, next_points[track_pair.first], 3, { 255,255,255 }, -1);
         int from_last_frame = abs(tracks[track_pair .first][tracks[track_pair.first].size() - 1].frameNumber - fr_num);
-        double cir = (from_last_frame / (double)track_lost_tresh) * 40;
-        cv::circle(frame, next_points[track_pair.first],30+cir, {244,0,10}, 1);
+        double cir = (from_last_frame / (double)track_lost_tresh) * (DISTANCE_THRESH+10) +
+            get_speed(tracks[track_pair.first][tracks[track_pair.first].size() - 1].speed*5);
+        cv::circle(frame, next_points[track_pair.first], DISTANCE_THRESH+cir , {244,0,10}, 1);
 
     }
     //remove inactive tracks
@@ -62,11 +67,12 @@ std::vector<Track> CustomTracker::update(std::vector<Result> detected_objects, c
             second_point = point.second;
             float distance = get_distance(first_point, second_point);
             int from_last_frame = abs(tracks[point.first][tracks[point.first].size() - 1].frameNumber - fr_num);
-            double cir = (from_last_frame / (double)track_lost_tresh) * 40;
-            if (distance < min_distance&&distance< 30 + cir) {
+            double cir = (from_last_frame / (double)track_lost_tresh) * (10+DISTANCE_THRESH)
+                +get_speed(tracks[point.first][tracks[point.first].size() - 1].speed*5);
+            if (distance < min_distance&&distance< DISTANCE_THRESH + cir) {
                 min_distance = distance;
                 object.track_id = point.first;
-            }
+            }   
         }
         if (object.track_id != -1) {
             next_points.erase(object.track_id);
@@ -92,17 +98,20 @@ std::vector<Track> CustomTracker::update(std::vector<Result> detected_objects, c
     }
 
     for (auto& point : next_points) {
+        if (!use_object_id(point.first))
+            continue;
         cv::Point first_point, second_point;
         first_point = point.second;
         float min_distance = 99999;
         int from_last_frame = abs(tracks[point.first][tracks[point.first].size() - 1].frameNumber - fr_num);
-        double cir = (from_last_frame / (double)track_lost_tresh) * 40;
+        double cir = (from_last_frame / (double)track_lost_tresh) * (10+DISTANCE_THRESH) +
+            get_speed(tracks[point.first][tracks[point.first].size() - 1].speed*5);
         int i = 0;
         int id = -1;
         for (auto& object : low_score_boxs) {
             second_point = rect_center(object.box);
             float distance = get_distance(first_point, second_point);
-            if (distance < min_distance && distance < 30 + cir) {
+            if (distance < min_distance && distance < DISTANCE_THRESH + cir) {
                 min_distance = distance;
                 id = i;
             }
@@ -156,7 +165,7 @@ bool CustomTracker::use_object_id(int track_id)
     // nije aktivan u slucaju da je proslo predugo od zadnjeg prikaza
     // nije aktivan u slucaju da je malen a proslo je neko vrijeme od zadnje detekcije
     if (from_last_frame > track_lost_tresh ||
-        (from_last_frame>2&&tracks[track_id].size()<5)) {
+        (from_last_frame>2&&tracks[track_id].size()<4)) {
         return false;
     }else
         return true;

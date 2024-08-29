@@ -58,6 +58,7 @@ private:
 	int fr_num = 0;
 	int track_id_counter = 0;
 	int track_lost_tresh = 50;
+	int DISTANCE_THRESH;
 
 public:
 	std::vector<Track> update(std::vector<Result> detected_objects, cv::Mat& frame, float conf_thresh=-1,float low_conf_thresh=-1);
@@ -74,5 +75,6 @@ private:
 	bool use_object_id(int track_id);
 	bool active_id(int track_id);
 	double get_speed(cv::Point2f point) { return sqrt(point.x * point.x + point.y * point.y); };
+	double get_radius(cv::Rect rect) { return sqrt(rect.width * rect.width + rect.height * rect.height) / 2; };
 };
 
