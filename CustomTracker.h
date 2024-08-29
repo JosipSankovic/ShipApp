@@ -12,6 +12,9 @@ struct  Track
 	int frameNumber{ 0 };
 	int label = 0;
 
+	bool operator==(const Track& tr) const {
+		return box == tr.box&&speed==tr.speed&&score==tr.score&&track_id==tr.track_id&&frameNumber==tr.frameNumber&&label==tr.label;
+	}
 };
 class CustomTracker
 {
@@ -30,7 +33,7 @@ public:
 			P(Eigen::Matrix<double, 4, 4>::Identity()),
 			State((Eigen::Matrix<float, 4, 1>() << initial_point.x, initial_point.y, 0.0, 0.0).finished()),
 			H((Eigen::Matrix<float, 2, 4>() << 1, 0, 0, 0, 0, 1, 0, 0).finished()),
-			Q(Eigen::Matrix<double, 4, 4>::Identity() * 0.0001),
+			Q(Eigen::Matrix<double, 4, 4>::Identity() * 0.001),
 			R(Eigen::Matrix<double, 2, 2>::Identity() * 10)
 		{}
 
@@ -54,9 +57,10 @@ private:
 	float high_score;
 	int fr_num = 0;
 	int track_id_counter = 0;
+	int track_lost_tresh = 50;
 
 public:
-	std::vector<Track> update(std::vector<Result> detected_objects, float conf_thresh=-1);
+	std::vector<Track> update(std::vector<Result> detected_objects, cv::Mat& frame, float conf_thresh=-1,float low_conf_thresh=-1);
 	cv::Point rect_center(cv::Rect rect) { return cv::Point(rect.x+rect.width/2,rect.y+rect.height/2); }
 	void reset() {
 		objects.clear();
@@ -69,5 +73,6 @@ private:
 	double get_distance(cv::Point first_point, cv::Point second_point) { return sqrt(pow(first_point.x - second_point.x, 2) + pow(first_point.y - second_point.y, 2)); };
 	bool use_object_id(int track_id);
 	bool active_id(int track_id);
+	double get_speed(cv::Point2f point) { return sqrt(point.x * point.x + point.y * point.y); };
 };
 

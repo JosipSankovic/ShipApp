@@ -33,10 +33,10 @@ private:
 private:
 	CustomTracker tracker;
 public:
-	void update_track(std::vector<Result> objects, float conf_thresh=0.5);
+	void update_track(std::vector<Result> objects, cv::Mat& frame, float conf_thresh=0.5);
 	void show_speed_vector(cv::Mat& frame, int dt=20);
 	void show_track(cv::Mat& frame,int number_of_past_points=1);
-	void find_collision(int dt = 200);
+	void find_collisions(int dt = 200);
 	void draw_collision_points(cv::Mat& frame);
 	void resetTracker() {
 		_Tracks.track_frames.clear();

@@ -36,13 +36,14 @@ void ShipApp::loadVideo()
 	video >> frame;
 	_VideoInfo.frameNumber++;
 	if (!_ShipAppState.modelLoaded)
-		_ShipAppState.modelLoaded = detection_model.ReadModel("Model/best (8).onnx", ui.check_CUDA->isChecked());
+		_ShipAppState.modelLoaded = detection_model.ReadModel("Model/best (3).onnx", ui.check_CUDA->isChecked());
 	showImage(frame);
 }
 
 void ShipApp::playVideo()
 {
 	std::thread([&] {
+		cv::VideoWriter writer("video1.mp4", cv::VideoWriter::fourcc('M', 'P', '4', 'V'), 15, { (int)(video.get(cv::CAP_PROP_FRAME_WIDTH)/1.5),(int)(video.get(cv::CAP_PROP_FRAME_HEIGHT)/1.5) });
 		while (_ShipAppState.videoPlaying &&
 			_VideoInfo.frameNumber < _VideoInfo.totalFrames)
 		{
@@ -55,9 +56,13 @@ void ShipApp::playVideo()
 				video.retrieve(frame);
 				detectAndTrack();
 				showImage(frame);
+				cv::Mat fr;
+				cv::resize(frame, fr, {  (int)(video.get(cv::CAP_PROP_FRAME_WIDTH) / 1.5),(int)(video.get(cv::CAP_PROP_FRAME_HEIGHT) / 1.5) });
+				writer.write(fr);
 				_ShipAppState.detectionRunning = false;
 			}
 		}
+		writer.release();
 	}).detach();
 }
 
@@ -65,10 +70,16 @@ void ShipApp::detectAndTrack()
 {
 	auto start = std::chrono::system_clock::now();
 	results = detection_model.Detect(frame);
-	tracker.update_track(results, _CONFIDENCE_THRESHOLD);
-	tracker.find_collision(80);
+	tracker.update_track(results,frame, _CONFIDENCE_THRESHOLD);
+	tracker.find_collisions(80);
+	tracker.show_track(frame, 50);
+	//tracker.show_speed_vector(frame,20);
 	tracker.draw_collision_points(frame);
-	tracker.show_track(frame, 10000);
+	for (const auto& result : results)
+		if (result.confidence > _CONFIDENCE_THRESHOLD)
+			cv::rectangle(frame, result.boundingBox, { 0,255,0 }, 1);
+		else if(result.confidence>=0.05)
+			cv::rectangle(frame, result.boundingBox, { 0,0,255 }, 1);
 	results.clear();
 	auto end = std::chrono::system_clock::now();
 	auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
