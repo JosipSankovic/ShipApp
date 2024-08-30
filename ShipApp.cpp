@@ -36,7 +36,7 @@ void ShipApp::loadVideo()
 	video >> frame;
 	_VideoInfo.frameNumber++;
 	if (!_ShipAppState.modelLoaded)
-		_ShipAppState.modelLoaded = detection_model.ReadModel("Model/best (8).onnx", ui.check_CUDA->isChecked());
+		_ShipAppState.modelLoaded = detection_model.ReadModel("Model/best (3).onnx", ui.check_CUDA->isChecked());
 	showImage(frame);
 }
 
@@ -70,7 +70,7 @@ void ShipApp::detectAndTrack()
 {
 	results = detection_model.Detect(frame);
 	auto start = std::chrono::system_clock::now();
-	tracker.update_track(results,frame, _CONFIDENCE_THRESHOLD,0.4);
+	tracker.update_track(results,frame, _CONFIDENCE_THRESHOLD,0.1);
 	auto end = std::chrono::system_clock::now();
 	tracker.find_collisions(80);
 	tracker.show_track(frame, 50);

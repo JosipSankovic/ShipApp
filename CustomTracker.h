@@ -9,12 +9,25 @@ struct  Track
 	cv::Point2f speed{ 0.0,0.0 };
 	float score{ 0.0 };
 	int track_id{ -1 };
-	int frameNumber{ 0 };
+	int last_active_frNum{ 0 };
 	int label = 0;
+	int count = 0;
 
 	bool operator==(const Track& tr) const {
-		return box == tr.box&&speed==tr.speed&&score==tr.score&&track_id==tr.track_id&&frameNumber==tr.frameNumber&&label==tr.label;
+
+		return box == tr.box&&speed==tr.speed&&score==tr.score&&track_id==tr.track_id&& last_active_frNum ==tr.last_active_frNum &&label==tr.label;
 	}
+
+	Track& operator=(const Track& tr) {
+		if (this == &tr) return *this;
+		box = tr.box;
+		score = tr.score;
+		track_id = tr.track_id;
+		last_active_frNum = tr.last_active_frNum;
+		label = tr.label;
+		return *this;
+	}
+
 };
 class CustomTracker
 {
@@ -33,10 +46,9 @@ public:
 			P(Eigen::Matrix<double, 4, 4>::Identity()),
 			State((Eigen::Matrix<float, 4, 1>() << initial_point.x, initial_point.y, 0.0, 0.0).finished()),
 			H((Eigen::Matrix<float, 2, 4>() << 1, 0, 0, 0, 0, 1, 0, 0).finished()),
-			Q(Eigen::Matrix<double, 4, 4>::Identity() * 0.001),
+			Q(Eigen::Matrix<double, 4, 4>::Identity() * 0.005),
 			R(Eigen::Matrix<double, 2, 2>::Identity() * 10)
 		{}
-
 		KalmanState()  // Default constructor
 			: A(Eigen::Matrix<float, 4, 4>::Identity()),
 			P(Eigen::Matrix<double, 4, 4>::Identity()),
@@ -51,8 +63,8 @@ public:
 
 private:
 	//objectId,state
-	std::map<int,KalmanState> objects;
-	std::map<int, std::vector<Track>>tracks;
+	//std::map<int,KalmanState> objects;
+	std::map<int,std::pair<Track,KalmanState>>tracks;
 	float low_score;
 	float high_score;
 	int fr_num = 0;
@@ -64,7 +76,7 @@ public:
 	std::vector<Track> update(std::vector<Result> detected_objects, cv::Mat& frame, float conf_thresh=-1,float low_conf_thresh=-1);
 	cv::Point rect_center(cv::Rect rect) { return cv::Point(rect.x+rect.width/2,rect.y+rect.height/2); }
 	void reset() {
-		objects.clear();
+		//objects.clear();
 		tracks.clear();
 		fr_num = 0;
 		track_id_counter = 0;
