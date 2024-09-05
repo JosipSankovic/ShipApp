@@ -4,7 +4,7 @@ CustomTracker::CustomTracker()
 {
     low_score = 0.1;
     high_score = 0.5;
-    track_lost_tresh = 40;
+    track_lost_tresh = 60;
     DISTANCE_THRESH = 20;
 }
 
@@ -48,11 +48,9 @@ std::vector<Track> CustomTracker::update(std::vector<Result> detected_objects, c
         cv::circle(frame, next_points[track_pair.first], DISTANCE_THRESH+cir , {244,0,10}, 1);
 
     }
-    //remove inactive tracks
     for (const auto& tr_id : inactive_ids) {
         tracks.erase(tr_id);
     }
-
     //prolaz kroz sve pronaðene objekte
     for (auto& object : high_score_boxs) {
         cv::Point first_point, second_point;
@@ -95,38 +93,51 @@ std::vector<Track> CustomTracker::update(std::vector<Result> detected_objects, c
 
     }
 
-    for (auto& point : next_points) {
-        if (!use_object_id(point.first))
-            continue;
-        cv::Point first_point, second_point;
-        first_point = point.second;
-        float min_distance = std::numeric_limits<float>().max();
-        int from_last_frame = fr_num-tracks[point.first].first.last_active_frNum;
-        double cir = (from_last_frame / (double)track_lost_tresh) * (10+DISTANCE_THRESH) +
-            get_speed(tracks[point.first].first.speed*5);
-        int i = 0;
-        int id = -1;
-        for (auto& object : low_score_boxs) {
-            second_point = rect_center(object.box);
+    //udaljenost,low_score_index,next_point_index
+    std::vector<std::tuple<float, int, int>> distance_list;
+
+    //dodaju se sve koje zadovoljavaju uvjet
+    for (int i = 0; i < low_score_boxs.size(); ++i) {
+        cv::Point first_point = rect_center(low_score_boxs[i].box);
+        for (auto& point : next_points) {
+            int next_point_index = point.first;
+            cv::Point second_point = point.second;
             float distance = get_distance(first_point, second_point);
-            if (distance < min_distance && distance < DISTANCE_THRESH + cir) {
-                min_distance = distance;
-                id = i;
+            int from_last_frame = abs(tracks[point.first].first.last_active_frNum - fr_num);
+            double cir = (from_last_frame / (double)track_lost_tresh) * (10 + DISTANCE_THRESH)
+                + get_speed(tracks[point.first].first.speed * 5);
+
+            if (distance < DISTANCE_THRESH + cir) {
+                distance_list.push_back(std::make_tuple(distance, i, next_point_index));
             }
-            i++;
         }
-
-        if (id!=-1) {
-            Track object=low_score_boxs[id];
-            object.speed= tracks[point.first].first.speed;
-            object.track_id = point.first;
-            tracks[point.first].first = object;
-            tracks[point.first].first.count++;
-            tracks_return.push_back(object);
-            low_score_boxs.erase(std::remove(low_score_boxs.begin(), low_score_boxs.end(), low_score_boxs[id]), low_score_boxs.end());
-        }
-
     }
+    //sortiranje od najmanje do najvece
+    std::sort(distance_list.begin(), distance_list.end(),
+        [](const std::tuple<float, int, int>& a, const std::tuple<float, int, int>& b) {
+        return std::get<0>(a) < std::get<0>(b);
+    });
+    std::set<int> assigned_points;
+    std::set<int> assigned_detection;
+    //dodajemo najbliže vrijednosti pripadajuæim next_pointsima
+    for (const auto& entry : distance_list) {
+        float distance = std::get<0>(entry);
+        int low_score_box_index = std::get<1>(entry);
+        int next_point_index = std::get<2>(entry);
+
+        if (assigned_points.find(next_point_index) != assigned_points.end()||assigned_detection.find(low_score_box_index)!=assigned_detection.end())
+            continue;
+        low_score_boxs[low_score_box_index].track_id = next_point_index;
+        assigned_points.insert(next_point_index);
+        assigned_detection.insert(low_score_box_index);
+        low_score_boxs[low_score_box_index].speed = tracks[next_point_index].first.speed;
+        tracks[next_point_index].first = low_score_boxs[low_score_box_index];
+        tracks[next_point_index].first.count++;
+        if (tracks[next_point_index].first.count > 3) {
+            tracks_return.push_back(low_score_boxs[low_score_box_index]);
+        }
+    }
+   
     return tracks_return;
 }
 
